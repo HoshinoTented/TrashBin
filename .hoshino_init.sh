@@ -6,3 +6,7 @@ alias 喵=bat
 function useProxy() {
     export ALL_PROXY=socks5://localhost:1080
 }
+
+fun removeProxy() {
+    export ALL_PROXY=""
+}
