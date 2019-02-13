@@ -2,7 +2,14 @@ export EDITOR="emacsclient -nw"
 alias 给本小姐=sudo
 alias 猫=cat
 alias 喵=bat
+alias 爆裂吧=rm
+alias 预示=ls
 alias ec="emacsclient -nw"
+
+# Haskell
+alias ghci="stack ghci"
+alias ghc="stack ghc"
+alias runghc="stack runghc"
 
 function useProxy() {
     export ALL_PROXY=socks5://localhost:1080
