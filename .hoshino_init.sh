@@ -3,7 +3,7 @@ alias 给本小姐=sudo
 alias 猫=cat
 alias 喵=bat
 alias 爆裂吧=rm
-alias 预示=ls
+alias 显现吧=ls
 alias ec="emacsclient -nw"
 
 # Haskell
