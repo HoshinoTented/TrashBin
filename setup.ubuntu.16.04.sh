@@ -50,6 +50,7 @@ ssr install
 
 echo "Please configure your ssr"
 ssr config
+ssr start
 
 # haskell-stack
 echo "Configuring Haskell-Stack"
