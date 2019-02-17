@@ -16,7 +16,7 @@ cp ./init.el ~/.emacs.d/
 sudo apt update
 
 # common tools
-sudo apt install git curl emacs24
+sudo apt install git curl emacs24 zip
 
 # flatabulous unity-tweak-tool
 # sudo apt install flatabulous-theme unity-tweak-tool
