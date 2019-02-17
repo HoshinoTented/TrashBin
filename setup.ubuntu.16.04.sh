@@ -59,7 +59,7 @@ stack_config="~/.stack"
 mkdir ${stack_config}
 curl -sSL https://get.haskellstack.org/ | sh
 cp ./haskellstack/config.yaml ${stack_config}/config.yaml
-stack setup
+stack setup #--resolver=ghc-8.6.3
 
 ## haskell packages
 stack install vector
@@ -78,7 +78,10 @@ removeProxy
 
 # Chrome
 echo "Installing Chrome"
+useProxy
 
 chrome_install="/tmp/chrome.deb"
 wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O ${chrome_install}
 sudo dpkg -i ${chrome_install}
+
+removeProxy
