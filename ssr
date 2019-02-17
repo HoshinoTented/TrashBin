@@ -80,14 +80,14 @@ ssr_test(){
 
 ssr_start() {
     cd $INSTALL_PATH/shadowsocks/
-    python local.py -d start
+    sudo python local.py -d start
     sleep 1
     ssr_test
 }
 
 ssr_stop() {
     cd $INSTALL_PATH/shadowsocks/
-    python local.py -d stop
+    sudo python local.py -d stop
 }
 
 ssr_restart() {
