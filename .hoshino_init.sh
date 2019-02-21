@@ -11,6 +11,9 @@ alias ghci="stack ghci"
 alias ghc="stack ghc"
 alias runghc="stack runghc"
 
+# QueDe Julia
+alias julia="/opt/julia/bin/julia"
+
 function useProxy() {
     export ALL_PROXY=socks5://localhost:1080
 }
