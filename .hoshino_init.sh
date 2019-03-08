@@ -20,5 +20,5 @@ function useProxy() {
 }
 
 function removeProxy() {
-    export ALL_PROXY=""
+    unset ALL_PROXY
 }

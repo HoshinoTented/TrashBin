@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export work_dir="~/Documents/Projects/Unknown"
+export work_dir="${HOME}/Documents/Projects/Unknown"
 export EDITOR="gedit"
 
 function sayHello() {
@@ -9,12 +9,12 @@ function sayHello() {
 
 function predo() {
     mkdir -p ${work_dir}
-    mkdir -p ~/.local/bin/
-    mkdir -p ~/.emacs.d/
+    mkdir -p ${HOME}/.local/bin/
 }
 
 function emacsScript() {
-    cp ./init.el ~/.emacs.d/
+    mkdir -p ${HOME}/.emacs.d/
+    cp ${work_dir}/init.el ${HOME}/.emacs.d/
 }
 
 # repositories
@@ -22,7 +22,7 @@ function emacsScript() {
 
 function apts() {
     sudo apt update
-    sudo apt install git curl zip
+    sudo apt install git curl zip htop
 }
 
 # flatabulous unity-tweak-tool
@@ -35,7 +35,7 @@ function jdks() {
 
 function cloneRepo() {
     echo "Cloning repository"
-    git clone https://github.com/HoshinoTented/TrashBin.git
+    git clone https://github.com/HoshinoTented/TrashBin.git ${work_dir}
     # cd TrashBin
 }
 
@@ -43,18 +43,16 @@ function initShell() {
     init_sh=".hoshino_init.sh"
     echo "Configuring ${init_sh}"
 
-    ln ${init_sh} ~/
-    echo -e "\nsource ${init_sh}" >> ~/.bashrc
-
-    source ~/.bashrc
+    ln ${work_dir}/${init_sh} ${HOME}/
+    echo -e "\nsource ${HOME}/${init_sh}" >> ${HOME}/.bashrc
 }
 
 function shadowsocksr() {
     echo "Configuring ShadowsockR"
 
-    ssr_install="~/.local/bin/ssr"
+    ssr_install="${HOME}/.local/bin/ssr"
     # curl -sSL https://github.com/the0demiurge/CharlesScripts/blob/master/charles/bin/ssr?raw=true > ${ssr_install}
-    ln ./ssr/ssr ${ssr_install}
+    ln ${work_dir}/ssr/ssr ${ssr_install}
     chmod +x ${ssr_install}
     ssr install
 
@@ -68,10 +66,10 @@ function shadowsocksr() {
 function haskellstack() {
     echo "Configuring Haskell-Stack"
 
-    stack_config="~/.stack"
+    stack_config="${HOME}/.stack"
     mkdir ${stack_config}
     curl -sSL https://get.haskellstack.org/ | sh
-    cp ./haskellstack/config.yaml ${stack_config}/config.yaml
+    cp ${work_dir}/haskellstack/config.yaml ${stack_config}/config.yaml
     stack setup #--resolver=ghc-8.6.3
 
     ## haskell packages
