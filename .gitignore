@@ -1,0 +1,9 @@
+# idea
+.idea/
+.gradle/
+build/
+out/
+
+
+# vscode
+.vscode/

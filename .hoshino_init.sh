@@ -4,6 +4,7 @@ alias 猫=cat
 alias 喵=bat
 alias 爆裂吧=rm
 alias 显现吧=ls
+alias 终结吧=exit
 alias ec="emacsclient -nw"
 
 # Haskell
@@ -15,7 +16,7 @@ alias runghc="stack runghc"
 alias julia="/opt/julia/bin/julia"
 
 function useProxy() {
-    export ALL_PROXY=socks5://localhost:1080
+    export ALL_PROXY="socks5://localhost:1080"
 }
 
 function removeProxy() {

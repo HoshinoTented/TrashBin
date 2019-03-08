@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-work_dir="~/Documents/Projects/Unknown"
+export work_dir="~/Documents/Projects/Unknown"
+export EDITOR="gedit"
 
 function sayHello() {
     echo "QWQ"
@@ -21,7 +22,7 @@ function emacsScript() {
 
 function apts() {
     sudo apt update
-    sudo apt install git curl emacs24 zip
+    sudo apt install git curl zip
 }
 
 # flatabulous unity-tweak-tool
@@ -48,18 +49,20 @@ function initShell() {
     source ~/.bashrc
 }
 
-function ssr() {
+function shadowsocksr() {
     echo "Configuring ShadowsockR"
 
     ssr_install="~/.local/bin/ssr"
     # curl -sSL https://github.com/the0demiurge/CharlesScripts/blob/master/charles/bin/ssr?raw=true > ${ssr_install}
-    # chmod +x ${ssr_install}
-    ln ./ssr ${ssr_install}
+    ln ./ssr/ssr ${ssr_install}
+    chmod +x ${ssr_install}
     ssr install
 
     echo "Please configure your ssr"
     ssr config
     ssr start
+
+    export ALL_PROXY="socks5://localhost:1080"
 }
 
 function haskellstack() {
@@ -91,4 +94,11 @@ function chrome() {
     chrome_install="/tmp/chrome.deb"
     wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O ${chrome_install}
     sudo dpkg -i ${chrome_install}
+}
+
+function all() {
+    for name in predo apts jdks cloneRepo shadowsocksr haskellstack chrome sdkman initShell
+    do
+        ${name}
+    done
 }
