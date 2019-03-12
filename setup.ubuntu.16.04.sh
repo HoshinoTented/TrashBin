@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-export work_dir="${HOME}/Documents/Projects/Unknown"
+repo_name="TrashBin"
+work_dir="${HOME}/Documents/Projects/Unknown"
+repo_dir="${work_dir}/${repo_name}"
 export EDITOR="gedit"
 
 function sayHello() {
@@ -8,13 +10,13 @@ function sayHello() {
 }
 
 function predo() {
-    mkdir -p ${work_dir}
+    mkdir -p ${repo_dir}
     mkdir -p ${HOME}/.local/bin/
 }
 
 function emacsScript() {
     mkdir -p ${HOME}/.emacs.d/
-    cp ${work_dir}/init.el ${HOME}/.emacs.d/
+    cp ${repo_dir}/init.el ${HOME}/.emacs.d/
 }
 
 # repositories
@@ -35,7 +37,7 @@ function jdks() {
 
 function cloneRepo() {
     echo "Cloning repository"
-    git clone https://github.com/HoshinoTented/TrashBin.git ${work_dir}
+    git clone https://github.com/HoshinoTented/${repo_name}.git ${repo_dir}
     # cd TrashBin
 }
 
@@ -43,7 +45,7 @@ function initShell() {
     init_sh=".hoshino_init.sh"
     echo "Configuring ${init_sh}"
 
-    ln ${work_dir}/${init_sh} ${HOME}/
+    ln ${repo_dir}/${init_sh} ${HOME}/
     echo -e "\nsource ${HOME}/${init_sh}" >> ${HOME}/.bashrc
 }
 
@@ -52,7 +54,7 @@ function shadowsocksr() {
 
     ssr_install="${HOME}/.local/bin/ssr"
     # curl -sSL https://github.com/the0demiurge/CharlesScripts/blob/master/charles/bin/ssr?raw=true > ${ssr_install}
-    ln ${work_dir}/ssr/ssr ${ssr_install}
+    ln ${repo_dir}/ssr/ssr ${ssr_install}
     chmod +x ${ssr_install}
     ssr install
 
@@ -69,7 +71,7 @@ function haskellstack() {
     stack_config="${HOME}/.stack"
     mkdir ${stack_config}
     curl -sSL https://get.haskellstack.org/ | sh
-    cp ${work_dir}/haskellstack/config.yaml ${stack_config}/config.yaml
+    cp ${repo_dir}/haskellstack/config.yaml ${stack_config}/config.yaml
     stack setup #--resolver=ghc-8.6.3
 
     ## haskell packages
