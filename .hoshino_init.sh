@@ -6,6 +6,7 @@ alias 爆裂吧=rm
 alias 显现吧=ls
 alias 终结吧=exit
 alias ec="emacsclient -nw"
+alias g="git"
 
 # Haskell
 alias ghci="stack ghci"

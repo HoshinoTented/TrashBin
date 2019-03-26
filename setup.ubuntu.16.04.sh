@@ -27,6 +27,13 @@ function apts() {
     sudo apt install git curl zip htop
 }
 
+function gits() {
+    gitc="git config --global"
+    $gitc core.quotepath false
+    $gitc alias.p push
+    $gitc alias.s status
+}
+
 # flatabulous unity-tweak-tool
 # sudo apt install flatabulous-theme unity-tweak-tool
 
@@ -97,7 +104,7 @@ function chrome() {
 }
 
 function all() {
-    for name in predo apts jdks cloneRepo shadowsocksr haskellstack chrome sdkman initShell
+    for name in predo apts gits jdks cloneRepo shadowsocksr haskellstack chrome sdkman initShell
     do
         ${name}
     done
