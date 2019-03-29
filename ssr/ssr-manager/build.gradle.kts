@@ -7,7 +7,6 @@ plugins {
 }
 
 group = "hoshino9.org"
-version = "1.0-SNAPSHOT"
 
 val SourceSet.kotlin get() = (this as HasConvention).convention.getPlugin(KotlinSourceSet::class).kotlin
 

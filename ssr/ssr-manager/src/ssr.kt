@@ -43,9 +43,10 @@ data class SSRNode(
     }
 }
 
-fun listOfSSR(code: String): Map<String, SSRNode> {
-    return code.decode().split('\n').dropLast(1).map {
-        it.drop(6).decode().split("/?").let { (data, params) ->
+fun listOfSSR(code: String): Map<String, Map<String, SSRNode>> {
+    return mutableMapOf<String, MutableMap<String, SSRNode>>().also { groups ->
+        code.decode().split('\n').dropLast(1).forEach { ssrs ->
+            ssrs.drop(6).decode().split("/?").let { (data, params) ->
                 data.split(':').let { datas ->
                     val (ip, port, protocol, method, obfs) = datas
                     val password = datas[5].decode()
@@ -56,8 +57,14 @@ fun listOfSSR(code: String): Map<String, SSRNode> {
                         key to encoded.decode()
                     }.toMap()
 
-                    ps["remarks"]!! to SSRNode(ip, port, protocol, method, obfs, ps["obfsparam"]!!, password)
+                    val groupName = ps.getValue("group")
+
+                    if (groups.containsKey(groupName).not()) groups[groupName] = HashMap()
+
+                    groups.getValue(groupName)[ps.getValue("remarks")] =
+                            SSRNode(ip, port, protocol, method, obfs, ps.getValue("obfsparam"), password)
                 }
             }
-    }.toMap()
+        }
+    }
 }

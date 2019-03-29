@@ -8,23 +8,24 @@ data class Command(val name : String, val info : String, val usage : String = ""
 }
 
 val commands = listOf(
-		Command("help", "Show help document"),
-		Command("init", "Check configuration file and fix them"),
-		Command("update", "Update nodes"),
-		Command("list", "Show all ssr nodes"),
-		Command("set", "Set target node to nodes.json", "<name>"),
-		Command("info", "Show node info", "<name>")
-)
+		"help" to Command("help", "Show help document"),
+		"init" to Command("init", "Check configuration file and fix them"),
+		"update" to Command("update", "Update nodes"),
+		"groups" to Command("groups", "Show all ssr node groups"),
+		"list" to Command("list", "Show specified group's ssr nodes", "<group name>"),
+		"set" to Command("set", "Set target node to nodes.json", "<group name> <node name>"),
+		"info" to Command("info", "Show node info", "<group name> <node name>")
+).toMap()
 
 fun help() {
 //    """
-//        $commandName list: Show all ssr nodes
+//        $commandName groups: Show all ssr nodes
 //        $commandName set <name>: Set target node to config.json
 //        $commandName info <name>: Show node info
 //    """.trimIndent().run(::println)
 
 	commands.forEach {
-		it.helpString.run(::println)
+		it.value.helpString.run(::println)
 	}
 }
 
@@ -35,11 +36,22 @@ fun unknownCommand(c : String) {
 }
 
 fun update() {
+	fun updateNodes(code: String) {
+		val ssrs = listOfSSR(code)
+		ssrs.forEach { k, v ->
+			nodesDir[k].also { file ->
+				if (file.file.exists().not()) file.file.createNewFile()
+
+				file.putAll(v)
+			}.save()
+		}
+	}
+
 	val url = config.getProperty("url") ?: throw NoSuchElementException("Not found property: url")
 	println("Downloading...")
 	val content = String(get(url))
 	println("Updating...")
-	nodes = content.run(::listOfSSR)
+	updateNodes(content)
 	println("Done.")
 }
 
@@ -78,8 +90,8 @@ fun init() {
     "fast_open": false
 }""")
 			},
-			nodesPath to { path ->
-				File(path).writeText("{}")
+			nodesDirPath to { path ->
+				File(path).mkdir()
 			}
 	).forEach { (name, init) ->
 		println("Checking $name...")
@@ -92,20 +104,27 @@ fun init() {
 	}
 }
 
-fun list() {
-	nodes.forEach { k, _ ->
-		println(k)
+fun groups() {
+	nodesDir.forEach { k, f ->
+		println("$k: Contains ${f.apply { load() }.size} nodes")
 	}
 }
 
-fun set(name : String) {
+fun list(group: String) {
+	println("$group:")
+	nodesDir[group].apply { load() }.forEach { name, _ ->
+		println("$indent$name")
+	}
+}
+
+fun set(group: String, name: String) {
 	val path = config.getProperty("path") ?: throw NoSuchElementException("Please set ssr install path")
-	val node = nodes[name] ?: throw NoSuchElementException("No such node name: $name")
+	val node = node(group, name)
 	File(path).writeText(node.toJson().toString())
 	println("Wrote node $name")
 }
 
-fun info(name : String) {
-	val node = nodes[name] ?: throw NoSuchElementException("No such node name: $name")
+fun info(group: String, name: String) {
+	val node = node(group, name)
 	println("$name: ${node.copy(password = "*")}")
 }
